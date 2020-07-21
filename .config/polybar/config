@@ -1,0 +1,326 @@
+[colors]
+	primary =				#50b4e6
+	secondary =				#55cca8
+	third =					#f5d544
+	fourth =				#f9c773
+	fifth =					#ed8755
+
+	updates =				#9c58fc
+	alert =					#ff3111
+
+	; 70% Opacity 
+	background =				#b314191f
+	foreground =				#ed8755
+
+	; 80% opacity
+	pressed =				#cc2b2d30
+
+	transparent = 				#00000000
+
+
+[global/wm]
+	margin-top = 5
+	margin-bottom = 0
+
+
+[settings]
+	throttle-output = 5
+	throttle-output-for = 10
+	throttle-input-for = 30
+	screenchange-reload = true
+	bargapp= 0
+	barwidth = 100%
+	barheigh = 32
+
+
+[bar/top]
+	monitor-strict = true
+	dpi = 96
+	bottom = false
+	width = ${settings.barwidth}
+	height = ${settings.barheigh}
+	offset-x = 0
+	offset-y = 0
+	background = ${colors.background}
+	foreground = ${colors.foreground} 
+	overline-size = 0 
+	overline-color = #f00
+	underline-size = 2
+	underline-color = #00f
+	border-top-size = ${settings.bargapp}
+	border-left-size = ${settings.bargapp}
+	border-right-size = ${settings.bargapp}
+	border-bottom-size = 0
+	border-color = ${colors.transparent}
+	radius-top = 0
+	radius-bottom = 0
+	spacing = 1
+	padding-left = 0
+	padding-right = 0
+	module-margin-left = 1
+	module-margin-right = 1
+	font-0 = Source Code Pro:size=10;2
+	font-1 = FontAwesome:pixelsize=12;3
+	font-2 = Font Awesome 5 Free:pixelsize=12;1
+	font-3 = Font Awesome 5 Free Solid:pixelsize=12;1
+	font-4 = Font Awesome 5 Brands:pixelsize=12;1
+	font-5 = Source Code Pro:size=12;3
+	tray-position = right
+	tray-padding = 1
+	tray-background = ${colors.background}
+
+	modules-left = menu i3 spotify
+	modules-center = date
+	modules-right = cpu memory volume battery powermenu
+
+[module/i3]
+	type = internal/i3
+
+	format = <label-state> <label-mode>
+	index-sort = true
+	wrapping-scroll = false
+	strip-wsnumbers = true
+
+	pin-workspaces = true
+	enable-scroll = true
+
+	label-focused = %{F#50b4e6}%icon%%{F-}
+	label-focused-padding = 1
+	label-focused-underline = ${colors.primary} 
+	label-focused-background = ${colors.pressed}
+	label-unfocused = %icon%
+	label-unfocused-padding = 1
+	label-unfocused-foreground = ${colors.secondary}
+
+	label-urgent = %icon%
+	label-urgent-foreground = ${colors.alert}
+	label-urgent-padding = 1
+
+	label-visible = %icon%
+	label-visible-padding = 1
+
+	ws-icon-0 = 1;1:
+	ws-icon-1 = 2;2:
+	ws-icon-2 = 3;3:
+	ws-icon-3 = 4;4:
+	ws-icon-4 = 5;5:
+	ws-icon-5 = 6;6:
+	ws-icon-6 = 7;7:
+	ws-icon-7 = 8;8:
+	ws-icon-8 = 9;9:
+	ws-icon-9 = 10;10:
+
+	ws-icon-default = 
+
+
+[module/menu]
+	type = custom/text
+	content = "  "
+	content-padding = 1
+	content-background = ${colors.pressed}
+	content-underline = ${colors.fifth} 
+	content-foreground = ${colors.fifth} 
+	click-left = ~/.config/polybar/scripts/rofi
+	;click-middle = rfull
+	;click-right = rmenu_wi_g
+
+
+[module/cpu]
+	type = internal/cpu
+	interval = 2
+	label = %percentage%%
+	format-prefix = " "
+	format-prefix-foreground = ${colors.third}
+	format = <label>
+	format-foreground = ${colors.third}
+
+
+[module/memory]
+	type = internal/memory
+	interval = 2
+	label = %percentage_used%%
+	format-prefix = " "
+	format-prefix-foreground = ${colors.third}
+	format = <label>
+	format-foreground = ${colors.third}
+
+
+[module/temperature]
+	type = internal/temperature
+	warn-temperature = 70
+
+	label = %temperature%
+	label-warn = %temperature%!!!
+	format-prefix = " "
+	format-prefix-foreground = ${colors.alert}
+	format = <label> 
+	format-foreground = ${colors.primary}
+	format-warn = <label-warn>
+	format-warn-foreground = ${colors.alert}
+
+
+[module/gputemp]
+	type = custom/script
+	exec = nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits
+	interval = 10
+	label = "%output%°C"
+	format-prefix = " "
+	format-prefix-foreground = ${colors.alert}
+	format = <label>
+	format-foreground = ${colors.primary}
+
+
+[module/wlan]
+	type = internal/network
+	interface = wlp0s20u5
+	interval = 3.0
+	format-connected = <label-connected>
+	format-connected-prefix = " "
+	format-connected-prefix-foreground = ${colors.secondary}
+	label-connected = "%{A1:wifi-menu &:}%essid%%{A}"
+	label-disconnected = "%{A1:wifi-menu &:}%{A}"
+	label-disconnected-foreground = ${colors.secondary}
+	ramp-signal-0 = 
+	ramp-signal-1 = 
+	ramp-signal-2 = 
+	ramp-signal-3 = 
+	ramp-signal-4 = 
+	ramp-signal-foreground = ${colors.secondary}
+	format-connected-foreground = ${colors.secondary}
+
+
+[module/date]
+	type = internal/date
+	interval = 5
+
+	date = 
+	date-alt = " %Y-%m-%d"
+
+	time = "   %a %b %d    %I:%M %p  "
+	time-alt = %H:%M:%S
+
+	format-prefix-foreground = ${colors.fifth}
+	#format-underline = #0a6cf5
+
+	label = %date% %time%
+
+
+[module/volume]
+	type = internal/alsa
+
+	format-volume = <ramp-volume><label-volume>
+	format-muted = <label-muted>
+
+	label-volume-foreground = ${colors.fourth}
+	label-volume = "%percentage%%"
+
+	label-muted = ""
+	label-muted-foreground = ${colors.fourth}
+
+	format-volume-padding = 0
+	format-muted-padding = 0
+
+	ramp-volume-foreground = ${colors.fourth}
+	ramp-volume-0 = 
+	ramp-volume-1 = 
+	ramp-volume-2 = 
+	ramp-headphones-0 = 
+
+
+[module/arch-updates]
+	type = custom/script
+	exec = ~/.bin/arch-updates
+	format-prefix = " "
+	format-prefix-foreground = ${colors.updates}
+	format = <label>
+	format-foreground = ${colors.updates}
+	interval = 2000
+
+	
+[module/spotify]
+	type = custom/script
+	exec-if = pgrep -x spotify
+	exec = python ~/.config/polybar/scripts/spotify.py -f '{artist}: {song} '
+	tail = false
+	interval = 2
+	format-prefix = "  "
+	format-prefix-foreground = ${colors.secondary}
+	format = <label>
+	format-foreground = ${colors.secondary}
+	format-background = ${colors.pressed}
+	format-underline = ${colors.secondary}
+
+
+[module/backlight]
+	type = internal/backlight
+	card = intel_backlight
+	enable-scroll = true
+	format = <label>
+	format-prefix = " "
+	format-prefix-foreground = ${colors.foreground}
+	label = %percentage%%
+	label-foreground = ${colors.primary}
+
+
+[module/battery]
+	type = internal/battery
+	battery = BAT0
+	adapter = ADP0
+	full-at = 98
+	time-format = %H:%M
+	label-discharging = %percentage%% %time%
+
+	format-charging = <animation-charging><label-charging>
+	format-charging-foreground = ${colors.fourth}
+	label-charging-foreground = ${colors.fourth}
+
+	format-discharging = <ramp-capacity><label-discharging>
+	format-discharging-foreground = ${colors.fourth}
+	label-discharging-foreground = ${colors.fourth}
+
+	format-full-prefix = " "
+	format-full-prefix-foreground = ${colors.fourth}
+	label-full-foreground = ${colors.fourth}
+	ramp-capacity-0 = 
+	ramp-capacity-1 = 
+	ramp-capacity-2 = 
+	ramp-capacity-3 = 
+	ramp-capacity-4 = 
+	ramp-capacity-foreground = ${colors.fourth}
+	animation-charging-0 = 
+	animation-charging-1 = 
+	animation-charging-2 = 
+	animation-charging-3 = 
+	animation-charging-4 = 
+	animation-charging-foreground = ${colors.fourth}
+	animation-charging-framerate = 750
+
+
+[module/powermenu]
+	type = custom/menu
+
+	format-spacing = 1
+
+	label-open = " "
+	label-open-background = ${colors.background}
+	label-open-foreground = ${colors.alert}
+	label-close = "  cancel "
+	label-close-background = ${colors.pressed}
+	label-close-foreground = ${colors.alert}
+	label-separator = " "
+	#format-underline = ${colors.alert} 
+
+	menu-0-0 = reboot
+	menu-0-0-exec = menu-open-1
+	menu-0-1 = power off
+	menu-0-1-exec = menu-open-2
+
+	menu-1-0 = cancel
+	menu-1-0-exec = menu-open-0
+	menu-1-1 = reboot
+	menu-1-1-exec = reboot
+
+	menu-2-0 = power off
+	menu-2-0-exec = poweroff
+	menu-2-1 = cancel
+	menu-2-1-exec = menu-open-0
